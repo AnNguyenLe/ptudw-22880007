@@ -1,0 +1,27 @@
+{
+	"name": "ptudw-22880007",
+	"version": "1.0.0",
+	"description": "EShop - HTML Codex - 22880007",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon index.js"
+	},
+	"keywords": [],
+	"author": "Nguyen Le Thien An - 22880007",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.19.2",
+		"express-handlebars": "^7.1.2",
+		"express-handlebars-paginate": "^1.0.3",
+		"express-session": "^1.18.0",
+		"express-validator": "^7.0.1",
+		"pg": "^8.11.5",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.37.2"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.0",
+		"sequelize-cli": "^6.6.2"
+	}
+}
