@@ -13,6 +13,9 @@ const redisClient = createClient({
 });
 redisClient.connect().catch(console.error);
 
+const passport = require('./controllers/passport');
+const flash = require('connect-flash')
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -52,14 +55,22 @@ app.use(
 	})
 );
 
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(flash())
+
 app.use((req, res, next) => {
 	let Cart = require("./controllers/cart");
 	req.session.cart = new Cart(req.session.cart ? req.session.cart : {});
 	res.locals.quantity = req.session.cart.quantity;
+	res.locals.isLoggedIn = req.isAuthenticated();
 	next();
 });
 
 app.use("/products", require("./routes/productsRouter"));
+
+app.use('/users', require('./routes/authRouter'))
 
 app.use("/users", require("./routes/usersRouter"));
 

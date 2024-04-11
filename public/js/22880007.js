@@ -98,3 +98,14 @@ const placeorders = (e) => {
 
 	e.target.submit();
 };
+
+const checkPasswordConfirm = (formId) => {
+	const password = document.querySelector(`#${formId} [name=password]`);
+	const confirmPassword = document.querySelector(`#${formId} [name=confirmPassword]`);
+	if(password.value !== confirmPassword.value){
+		confirmPassword.setCustomValidity('Password does not match!');
+		confirmPassword.reportValidity();
+	} else {
+		confirmPassword.setCustomValidity('');
+	}
+}

@@ -4,7 +4,7 @@ const controller = {};
 
 controller.checkout = async (req, res) => {
 	if (req.session.cart.quantity > 0) {
-		const userId = 1;
+		const userId = req.user.id;
 		const addresses = await Address.findAll({
 			where: { userId },
 		});
@@ -18,7 +18,7 @@ controller.checkout = async (req, res) => {
 };
 
 controller.placeorders = async (req, res) => {
-	const userId = 1;
+	const userId = req.user.id;
 	//let { addressId, payment } = req.body;
 	const addressId = isNaN(req.body.addressId)
 		? 0
@@ -57,7 +57,7 @@ controller.placeorders = async (req, res) => {
 };
 
 const saveOrders = async (req, res, status) => {
-	const userId = 1;
+	const userId = req.user.id;
 	const { items, ...others } = req.session.cart.getCart();
 	const order = await Order.create({
 		userId,
