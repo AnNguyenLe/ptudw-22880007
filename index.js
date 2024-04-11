@@ -13,8 +13,8 @@ const redisClient = createClient({
 });
 redisClient.connect().catch(console.error);
 
-const passport = require('./controllers/passport');
-const flash = require('connect-flash')
+const passport = require("./controllers/passport");
+const flash = require("connect-flash");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -55,10 +55,10 @@ app.use(
 	})
 );
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(flash())
+app.use(flash());
 
 app.use((req, res, next) => {
 	let Cart = require("./controllers/cart");
@@ -68,13 +68,13 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use("/", require("./routes/indexRouter"));
+
 app.use("/products", require("./routes/productsRouter"));
 
-app.use('/users', require('./routes/authRouter'))
+app.use("/users", require("./routes/authRouter"));
 
 app.use("/users", require("./routes/usersRouter"));
-
-app.use("/", require("./routes/indexRouter"));
 
 app.use((req, res, next) => {
 	res.status(404).render("error", { message: "File Not Found!" });
