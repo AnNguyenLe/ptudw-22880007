@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const { checkout, placeorders } = require("../controllers/usersController");
+const {
+	checkout,
+	placeorders,
+	addToWishList,
+	showWishList,
+	deleteFromWishlist
+} = require("../controllers/usersController");
 const { body, validationResult } = require("express-validator");
-const  {isLoggedIn} = require("../controllers/authController");
+const { isLoggedIn } = require("../controllers/authController");
 
-router.use(isLoggedIn)
+router.use(isLoggedIn);
 router.get("/checkout", checkout);
 router.post(
 	"/placeorders",
@@ -37,5 +43,9 @@ router.post(
 router.get("/my-account", (req, res) => {
 	res.render("my-account");
 });
+
+router.get("/wishlist", showWishList);
+router.post("/wishlist", addToWishList);
+router.delete("/wishlist", deleteFromWishlist);
 
 module.exports = router;

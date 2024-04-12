@@ -1,4 +1,4 @@
-const { Address, Order, OrderDetail } = require("../models");
+const { Address, Order, OrderDetail, Wishlist, Product } = require("../models");
 
 const controller = {};
 
@@ -78,6 +78,58 @@ const saveOrders = async (req, res, status) => {
 	await OrderDetail.bulkCreate(orderDetails);
 	req.session.cart.clear();
 	return res.render("error", { message: "Thank you for your order!" });
+};
+
+controller.addToWishList = async (req, res) => {
+	const product = await Wishlist.findOne({
+		where: {
+			userId: req.user.id,
+			productId: req.body.productId,
+		},
+	});
+	if (product) {
+		return res.send("Product is already in wishlist");
+	}
+
+	await Wishlist.create({
+		productId: req.body.productId,
+		userId: req.user.id,
+	});
+	res.send("Added to wishlist!");
+};
+
+controller.showWishList = async (req, res) => {
+	const products = await Wishlist.findAll({
+		attributes: [],
+		where: { userId: req.user.id },
+		include: [
+			{ model: Product, attributes: ["id", "name", "imagePath", "price"] },
+		],
+	});
+	res.render("wishlist", {
+		products,
+	});
+};
+
+controller.deleteFromWishlist = async (req, res) => {
+	const product = await Wishlist.findOne({
+		where: {
+			userId: req.user.id,
+			productId: req.body.productId,
+		},
+	});
+
+	if (product) {
+		await Wishlist.destroy({
+			where: {
+				userId: req.user.id,
+				productId: req.body.productId,
+			},
+		});
+		return res.send("Product deleted from wishlist!");
+	}
+
+	res.send("This product is not in your wish list!");
 };
 
 module.exports = controller;

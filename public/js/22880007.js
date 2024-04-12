@@ -12,6 +12,31 @@ const addCart = async (id, quantity) => {
 	document.getElementById("cart-quantity").innerText = `(${json.quantity})`;
 };
 
+const addWishList = async (id) => {
+	await fetch("/users/wishlist", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			productId: id,
+		}),
+	});
+};
+
+const removeFromWishlist = async (id) => {
+	await fetch("/users/wishlist", {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({ productId: id }),
+	});
+	location.reload();
+};
+
 const updateCart = async (id, quantity) => {
 	if (quantity > 0) {
 		const res = await fetch("/products/cart", {
@@ -101,11 +126,13 @@ const placeorders = (e) => {
 
 const checkPasswordConfirm = (formId) => {
 	const password = document.querySelector(`#${formId} [name=password]`);
-	const confirmPassword = document.querySelector(`#${formId} [name=confirmPassword]`);
-	if(password.value !== confirmPassword.value){
-		confirmPassword.setCustomValidity('Password does not match!');
+	const confirmPassword = document.querySelector(
+		`#${formId} [name=confirmPassword]`
+	);
+	if (password.value !== confirmPassword.value) {
+		confirmPassword.setCustomValidity("Password does not match!");
 		confirmPassword.reportValidity();
 	} else {
-		confirmPassword.setCustomValidity('');
+		confirmPassword.setCustomValidity("");
 	}
-}
+};
