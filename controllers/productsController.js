@@ -51,7 +51,7 @@ controller.show = async (req, res) => {
 	}
 
 	const keyword = req.query.keyword || "";
-	if (keyword.trim() != "") {
+	if (keyword.trim() !== "") {
 		options.where.name = { [Op.iLike]: `%${keyword}%` };
 	}
 
